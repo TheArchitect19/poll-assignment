@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./client
+    container_name: poll-frontend
+    command: npm run start
+    ports:
+      - "4002:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
+    depends_on:
+      - backend
+    restart: always
+  backend:
+    build:
+      context: ./server
+    container_name: poll-backend
+    command: nodemon src/server.js
+
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb+srv://Batman:Ayush1907@cluster0.gq3kj0c.mongodb.net/poll
+      - PORT=4000
+    restart: always
+
